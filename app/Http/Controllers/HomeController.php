@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -25,6 +25,6 @@ class HomeController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('home',['posts'=>$posts]);
+        return view('home', ['posts' => $posts]);
     }
 }

@@ -1,6 +1,12 @@
 <x-admin-master>
 @section('content')
-
+    <div class="row">
+    @if(session()->has('permission-deleted'))
+        <div class="alert alert-danger">
+            {{ session('permission-deleted') }}
+        </div>
+    @endif
+    </div>
 <div class="row">
         <div class  = "col-sm-3">
             <form method="post" action="{{route('permissions.store')}}">

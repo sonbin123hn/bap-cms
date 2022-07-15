@@ -34,7 +34,7 @@
                                  class="form-control"
                                  id="body"
                                  cols="30"
-                                 rows="10">value="{{$post->body}}"</textarea>
+                                 rows="10">{{$post->body}}</textarea>
             </div>
 
 

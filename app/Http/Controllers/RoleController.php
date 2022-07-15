@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Permission;
-use App\Role;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Role;
+use App\Permission;
 
 class RoleController extends Controller
 {
@@ -20,7 +19,7 @@ class RoleController extends Controller
         ]);
         Role::create([
             'name' => Str::ucfirst(request('name')),
-            'slug' => Str::of(Str::lower(request('slug')))->slug('-'),
+            'slug' => Str::of(Str::lower(request('name')))->slug('-'),
         ]);
         return back();
         
@@ -43,17 +42,15 @@ class RoleController extends Controller
         request()->validate([
             'name' => 'required',
         ]);
-        $role->update([
-            'name' => Str::ucfirst(request('name')),
-            'slug' => Str::of(Str::lower(request('slug')))->slug('-'),
-        ]);
-        if($role->isDirty('name')){
-            session()->flash('role-updated', 'Role Updated ' . $role->name);
-
-            $role->save();
+        if(Role::find($role->id)->slug != Str::of(Str::lower(request('name')))->slug('-')){
+            session()->flash('role-updated', 'Role Updated ' . request('name'));
         }else{
             session()->flash('role-updated', 'Nothing to update');
         }
+        $role->update([
+            'name' => Str::ucfirst(request('name')),
+            'slug' => Str::of(Str::lower(request('name')))->slug('-'),
+        ]);
         return back();
     }
 
@@ -72,4 +69,5 @@ class RoleController extends Controller
         return back();
 
     }
+
 }

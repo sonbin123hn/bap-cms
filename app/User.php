@@ -3,14 +3,13 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use Notifiable,HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -44,8 +43,13 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function getAvatarAttribute($value){
-        return asset($value);
+    public function getAvatarAttribute($value)
+    {
+     if (strpos($value, 'https://') !== false || strpos($value, 'http://') !== false)
+     {
+      return $value;
+     }
+     return asset('storage/' . $value);
     }
 
     public function posts(){
@@ -72,8 +76,4 @@ class User extends Authenticatable
 
         return false;
     }
-
-
-
-
 }
